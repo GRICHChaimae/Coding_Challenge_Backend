@@ -42,14 +42,15 @@ class ProductsService
         }
     }
 
-    public function getAllProducts(){
-        try{
+    public function getAllProducts()
+    {
+        try {
             $allProducts = $this->productsRepository->getAll();
             return response()->json([
                 'status' => 'success',
                 'Products' => $allProducts
             ]);
-        }catch (Exception $ex) {
+        } catch (Exception $ex) {
             return response()->json([
                 'status' => 'failed',
                 'error' => $ex->getMessage()
@@ -57,7 +58,8 @@ class ProductsService
         }
     }
 
-    public function sortProductsByNameOrPrice($request) {
+    public function sortProductsByNameOrPrice($request)
+    {
         $sort = $request['sort'];
         try {
             $sort_products = $this->productsRepository->sortByNameOrByPrice($sort);
@@ -73,4 +75,21 @@ class ProductsService
         }
     }
 
+
+    public function filterProductsByCategory($request)
+    {
+        $category_id = $request['category_id'];
+        try {
+            $filtred_products = $this->productsRepository->filterByCtegory($category_id);
+            return response()->json([
+                'status' => 'success',
+                'Products' => $filtred_products
+            ]);
+        } catch (Exception $ex) {
+            return response()->json([
+                'status' => 'failed',
+                'error' => $ex->getMessage()
+            ]);
+        }
+    }
 }
