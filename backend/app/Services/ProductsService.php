@@ -42,4 +42,19 @@ class ProductsService
         }
     }
 
+    public function getAllProducts(){
+        try{
+            $allProducts = $this->productsRepository->getAll();
+            return response()->json([
+                'status' => 'success',
+                'Products' => $allProducts
+            ]);
+        }catch (Exception $ex) {
+            return response()->json([
+                'status' => 'failed',
+                'error' => $ex->getMessage()
+            ]);
+        }
+    }
+
 }

@@ -10,4 +10,8 @@ class ProductsRepository
     {
         return Product::create($data);
     }
+
+    public function getAll() {
+        return Product::with('categories')->paginate(9);
+    }
 }

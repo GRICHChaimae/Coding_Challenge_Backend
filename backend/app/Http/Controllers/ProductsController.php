@@ -18,4 +18,9 @@ class ProductsController extends Controller
     {
         return $this->productsService->createProduct($request);
     }
+
+    public function getAllProducts()
+    {
+        return $this->productsService->getAllProducts();
+    }
 }
