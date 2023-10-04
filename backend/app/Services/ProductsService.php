@@ -57,4 +57,20 @@ class ProductsService
         }
     }
 
+    public function sortProductsByNameOrPrice($request) {
+        $sort = $request['sort'];
+        try {
+            $sort_products = $this->productsRepository->sortByNameOrByPrice($sort);
+            return response()->json([
+                'status' => 'success',
+                'Products' => $sort_products
+            ]);
+        } catch (Exception $ex) {
+            return response()->json([
+                'status' => 'failed',
+                'error' => $ex->getMessage()
+            ]);
+        }
+    }
+
 }

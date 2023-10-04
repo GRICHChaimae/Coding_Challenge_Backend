@@ -14,4 +14,8 @@ class ProductsRepository
     public function getAll() {
         return Product::with('categories')->paginate(9);
     }
+
+    public function sortByNameOrByPrice($sort) {
+        return Product::with('categories')->where('name', $sort)->orWhere('price', $sort)->paginate(9);
+    }
 }
