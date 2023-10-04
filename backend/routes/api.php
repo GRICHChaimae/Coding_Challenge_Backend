@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,3 +24,4 @@ Route::post('add-product', [ProductsController::class, 'createProduct']);
 Route::get('get-all-products', [ProductsController::class, 'getAllProducts']);
 Route::post('sort-products', [ProductsController::class, 'sortProductsByNameOrPrice']);
 Route::post('filter-products', [ProductsController::class, 'filterProductsByCategory']);
+Route::get('get-all-categories', [CategoryController::class, 'getAllCategories']);
