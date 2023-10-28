@@ -2,9 +2,12 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Product;
+use App\Services\ProductsService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class CreateProduct extends Command
 {
@@ -25,35 +28,29 @@ class CreateProduct extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(ProductsService $productsService)
     {
         $category_id = $this->ask('Enter the category id');
         $name = $this->ask('Enter the product name:');
         $description = $this->ask('Enter the product description:');
         $price = $this->ask('Enter the product price:');
         $imagePath = $this->ask('Enter the product image:');
-
-        $imageUrl = asset($imagePath);
-
-        $extension = File::extension(public_path($imagePath));
-        $filename = 'product-image.' . $extension;
-
-        $response = Http::attach(
-            'image',
-            file_get_contents(public_path($imagePath)),
-            $filename
-        )->post('http://127.0.0.1:8000/api/add-product', [
+        $uploadedFile = new \Illuminate\Http\UploadedFile($imagePath, basename($imagePath), mime_content_type($imagePath), 0, true);
+        $data = [
             'category_id' => $category_id,
             'name' => $name,
-            'price' => $price,
             'description' => $description,
-            'image' => $imageUrl,
-        ]);
+            'price' => $price,
+            'image' => $uploadedFile,
+        ];
 
-        if ($response->successful()) {
+        $response = $productsService->createProduct($data);
+        $responseData = json_decode($response->getContent(), true);
+        $status = $responseData['status'];
+        if ($status === 'success') {
             $this->info('Product Created Successfully');
         } else {
-            $this->error('Failed to create Product' . $response->status());
+            $this->error('Failed to create Product: ' . $response['status']);
         }
     }
 }
