@@ -4,7 +4,7 @@
     <p>Product Description: {{ product.description }}</p>
     <p>Product Price: {{ product.price }}</p>
     <p>Category Name: {{ product.categories.name }}</p>
-    <p>Parent Category: {{ product.categories.parent_category }}</p>
+    <p>Parent Category: {{ product.categories.parent_category.name }}</p>
     <img
       :src="`http://127.0.0.1:8000/storage/Products_images/${product.image}`"
       alt=""

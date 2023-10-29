@@ -13,16 +13,16 @@ class ProductsRepository
 
     public function getAll()
     {
-        return Product::with('categories')->paginate(9);
+        return Product::with(['categories', 'categories.parentCategory'])->paginate(9);
     }
 
     public function sortByNameOrByPrice($sort)
     {
-        return Product::with('categories')->where('name', $sort)->orWhere('price', $sort)->paginate(9);
+        return Product::with(['categories', 'categories.parentCategory'])->where('name', $sort)->orWhere('price', $sort)->paginate(9);
     }
 
     public function filterByCtegory($category_id)
     {
-        return Product::with('categories')->where('category_id', $category_id)->paginate(9);
+        return Product::with(['categories', 'categories.parentCategory'])->where('category_id', $category_id)->paginate(9);
     }
 }

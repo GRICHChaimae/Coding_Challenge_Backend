@@ -27,7 +27,7 @@
             :key="category.id"
             :value="category.id"
           >
-            {{ category.name }}, {{ category.parent_category }}
+            {{ category.name }}, {{ category.parent_category.name }}
           </option>
         </select>
       </div>
